@@ -56,14 +56,18 @@ function startQuiz () {
 }
 
  function correct () {
-
+  
     isCorrect.textContent = "Correct";
     questionCounter++;
     console.log(`correct question counter ${questionCounter}`);
-    optionA.removeEventListener("click", correct, wrong);
-    optionB.removeEventListener("click", correct, wrong);
-    optionC.removeEventListener("click", correct, wrong);
-    optionD.removeEventListener("click", correct, wrong);           
+    optionA.removeEventListener("click", correct);
+    optionA.removeEventListener("click", wrong);
+    optionB.removeEventListener("click", correct);
+    optionB.removeEventListener("click", wrong);
+    optionC.removeEventListener("click", correct);
+    optionC.removeEventListener("click", wrong);
+    optionD.removeEventListener("click", correct);    
+    optionD.removeEventListener("click", wrong);        
     nextQuestion();
  }
 
@@ -72,15 +76,20 @@ function startQuiz () {
     isCorrect.textContent = "Incorrect";
     questionCounter++;
     console.log(`Incorrect question counter ${questionCounter}`);
-    optionA.removeEventListener("click", correct, wrong);
-    optionB.removeEventListener("click", correct, wrong);
-    optionC.removeEventListener("click", correct, wrong);
-    optionD.removeEventListener("click", correct, wrong);  
+    optionA.removeEventListener("click", correct);
+    optionA.removeEventListener("click", wrong);
+    optionB.removeEventListener("click", correct);
+    optionB.removeEventListener("click", wrong);
+    optionC.removeEventListener("click", correct);
+    optionC.removeEventListener("click", wrong);
+    optionD.removeEventListener("click", correct);    
+    optionD.removeEventListener("click", wrong);    
     nextQuestion();
  } 
  
 
  function nextQuestion () {
+    
     if (questionCounter === 1) {
         questions.textContent = question1[0];
         optionA.textContent = question1[1];
@@ -93,7 +102,6 @@ function startQuiz () {
         optionB.addEventListener("click", wrong);
         optionC.addEventListener("click", wrong);
         optionD.addEventListener("click", wrong);
-        console.log(`Question counter 1 after click quetion is: ${questionCounter}`);
 
      } else if (questionCounter === 2) {
         questions.textContent = question2[0];
@@ -107,7 +115,7 @@ function startQuiz () {
         optionB.addEventListener("click", correct);
         optionC.addEventListener("click", wrong);
         optionD.addEventListener("click", wrong);
-        console.log(`Question counter 2 after click quetion is: ${questionCounter}`);
+
 
     } else if (questionCounter === 3) {
         questions.textContent = question3[0];
@@ -121,7 +129,6 @@ function startQuiz () {
         optionB.addEventListener("click", wrong);
         optionC.addEventListener("click", correct);
         optionD.addEventListener("click", wrong);
-        console.log(`Question counter 3 after click quetion is: ${questionCounter}`);
 
     } else if (questionCounter === 4 ) {
         questions.textContent = question4[0];
@@ -135,7 +142,6 @@ function startQuiz () {
         optionB.addEventListener("click", wrong);
         optionC.addEventListener("click", wrong);
         optionD.addEventListener("click", correct);
-        console.log(`Question counter 4 after click quetion is: ${questionCounter}`);
 
     } else {
         questions.textContent = "Game Over"
