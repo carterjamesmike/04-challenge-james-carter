@@ -1,7 +1,7 @@
 var body = document.body;
 var header = document.createElement("header")
 var score = document.createElement("h3");
-var timer = document.createElement("h3");
+var timerEl = document.createElement("h3");
 var questions = document.createElement("h1");
 var answers = document.createElement("div");
 var optionA = document.createElement("button");
@@ -10,6 +10,8 @@ var optionC = document.createElement("button");
 var optionD = document.createElement("button");
 var startButton = document.createElement("button"); 
 var isCorrect = document.createElement("h2");
+var timer;
+var timerCount = 10;
 
 var question1 = ["Which button is A?", "A", "B", "C", "D"];
 var question2 = ["Which button is B?", "A", "B", "C", "D"];
@@ -17,8 +19,8 @@ var question3 = ["Which button is C?", "A", "B", "C", "D"];
 var question4 = ["Which button is D?", "A", "B", "C", "D"];
 var questionCounter = 1;
 
-score.textContent = "This is the score:"
-timer.textContent = "This is the timer:"
+score.textContent = "This is the score:";
+timerEl.textContent = (`Time remaining: ${timerCount}`);
 questions.textContent = "Press start button to start game";
 startButton.textContent = "Start";
 optionA.textContent = "Option A";
@@ -30,13 +32,14 @@ isCorrect.textContent = "Good Luck"
 
 body.appendChild(header);
 header.appendChild(score);
-header.appendChild(timer);
+header.appendChild(timerEl);
 body.appendChild(questions);
 body.appendChild(startButton);
 body.appendChild(answers);
 body.appendChild(isCorrect);
 
 function startQuiz () {
+    startTimer();
     startButton.remove();
     // questions.textContent = question1[0];
     answers.appendChild(optionA);
@@ -148,5 +151,33 @@ function startQuiz () {
     }   
  }
 
+ function startTimer() {
+    // Sets timer
+    timer = setInterval(function() {
+      timerCount--;
+    //   timerEl.textContent = timerCount;
+      if (timerCount >= 0) {
+        // Tests if win condition is met
+        if ( timerCount > 0) {
+          // Clears interval and stops timer
+          clearInterval(timer);
+          winGame();
+        }
+      }
+      // Tests if time has run out
+      if (timerCount === 0) {
+        // Clears interval
+        clearInterval(timer);
+        loseGame();
+      }
+    }, 1000);
+  } 
 
 startButton.addEventListener("click", startQuiz)
+
+// Create endGame fx that asks for initials imput and displays score then calls highScore fx
+// Create highScore fx that displays all high scores and offers option to clear high scores
+// Create timer fx that decreases with every incorrect answer
+// 
+//
+//
