@@ -3,7 +3,7 @@ var header = document.createElement("header")
 var score = document.createElement("h3");
 var timerEl = document.createElement("h3");
 var questions = document.createElement("h1");
-var answers = document.createElement("div");
+var options = document.createElement("div");
 var optionA = document.createElement("button");
 var optionB = document.createElement("button");
 var optionC = document.createElement("button");
@@ -11,7 +11,8 @@ var optionD = document.createElement("button");
 var startButton = document.createElement("button"); 
 var isCorrect = document.createElement("h2");
 var timer;
-var timerCount = 10;
+var secondsLeft = 100;
+var timerInterval;
 
 var question1 = ["Which button is A?", "A", "B", "C", "D"];
 var question2 = ["Which button is B?", "A", "B", "C", "D"];
@@ -20,7 +21,7 @@ var question4 = ["Which button is D?", "A", "B", "C", "D"];
 var questionCounter = 1;
 
 score.textContent = "This is the score:";
-timerEl.textContent = (`Time remaining: ${timerCount}`);
+timerEl.textContent = "Time remaining: 100"
 questions.textContent = "Press start button to start game";
 startButton.textContent = "Start";
 optionA.textContent = "Option A";
@@ -35,20 +36,20 @@ header.appendChild(score);
 header.appendChild(timerEl);
 body.appendChild(questions);
 body.appendChild(startButton);
-body.appendChild(answers);
+body.appendChild(options);
 body.appendChild(isCorrect);
 
 function startQuiz () {
     startTimer();
     startButton.remove();
     // questions.textContent = question1[0];
-    answers.appendChild(optionA);
+    options.appendChild(optionA);
     // optionA.textContent = question1[1];
-    answers.appendChild(optionB);
+    options.appendChild(optionB);
     // optionB.textContent = question1[2];
-    answers.appendChild(optionC);
+    options.appendChild(optionC);
     // optionC.textContent = question1[3];
-    answers.appendChild(optionD);
+    options.appendChild(optionD);
     // optionD.textContent = question1[4];
     console.log(`Start quiz question counter ${questionCounter}`);
     nextQuestion();
@@ -75,7 +76,7 @@ function startQuiz () {
  }
 
  function wrong () {
-
+    secondsLeft = secondsLeft - 20;
     isCorrect.textContent = "Incorrect";
     questionCounter++;
     console.log(`Incorrect question counter ${questionCounter}`);
@@ -147,37 +148,38 @@ function startQuiz () {
         optionD.addEventListener("click", correct);
 
     } else {
-        questions.textContent = "Game Over"
+        gameOver();
     }   
  }
 
  function startTimer() {
-    // Sets timer
-    timer = setInterval(function() {
-      timerCount--;
-    //   timerEl.textContent = timerCount;
-      if (timerCount >= 0) {
-        // Tests if win condition is met
-        if ( timerCount > 0) {
-          // Clears interval and stops timer
-          clearInterval(timer);
-          winGame();
-        }
-      }
-      // Tests if time has run out
-      if (timerCount === 0) {
-        // Clears interval
-        clearInterval(timer);
-        loseGame();
-      }
-    }, 1000);
-  } 
+  // Sets interval in variable
+   timerInterval = setInterval(function() {
+    secondsLeft--;
+    timerEl.textContent = `Time remaining: ${secondsLeft}`;
 
+    if(secondsLeft === 0) {
+      // Stops execution of action at set interval
+      clearInterval(timerInterval);
+      // Calls function to create and append image
+      gameOver();
+    }
+
+  }, 1000);
+}
+function gameOver () {
+  options.remove();
+  questions.textContent = "Time is up";
+  clearInterval(timerInterval);
+  timerEl.textContent = `Your score is: ${secondsLeft}`;
+  console.log(secondsLeft);
+
+}
 startButton.addEventListener("click", startQuiz)
 
 // Create endGame fx that asks for initials imput and displays score then calls highScore fx
 // Create highScore fx that displays all high scores and offers option to clear high scores
-// Create timer fx that decreases with every incorrect answer
+// Complete!  Create timer fx that decreases with every incorrect answer
 // 
 //
 //
