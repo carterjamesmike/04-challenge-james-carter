@@ -10,9 +10,12 @@ var optionC = document.createElement("button");
 var optionD = document.createElement("button");
 var startButton = document.createElement("button"); 
 var isCorrect = document.createElement("h2");
+var highScore = document.createElement("input")
+var highScoreLabel = document.createElement("label");
 var timer;
 var secondsLeft = 100;
 var timerInterval;
+var initialArr = [];
 
 var question1 = ["Which button is A?", "A", "B", "C", "D"];
 var question2 = ["Which button is B?", "A", "B", "C", "D"];
@@ -20,14 +23,14 @@ var question3 = ["Which button is C?", "A", "B", "C", "D"];
 var question4 = ["Which button is D?", "A", "B", "C", "D"];
 var questionCounter = 1;
 
-score.textContent = "This is the score:";
+score.textContent = (`The high score belongs to: ${initialArr[0]}`);
 timerEl.textContent = "Time remaining: 100"
 questions.textContent = "Press start button to start game";
 startButton.textContent = "Start";
-optionA.textContent = "Option A";
-optionB.textContent = "Option B";
-optionC.textContent = "Option C";
-optionD.textContent = "Option D";
+optionA.textContent = "";
+optionB.textContent = "";
+optionC.textContent = "";
+optionD.textContent = "";
 isCorrect.textContent = "Good Luck"
 
 
@@ -76,7 +79,7 @@ function startQuiz () {
  }
 
  function wrong () {
-    secondsLeft = secondsLeft - 20;
+    secondsLeft = secondsLeft - 25;
     isCorrect.textContent = "Incorrect";
     questionCounter++;
     console.log(`Incorrect question counter ${questionCounter}`);
@@ -148,29 +151,45 @@ function startQuiz () {
         optionD.addEventListener("click", correct);
 
     } else {
+        questions.textContent = "Game Over. All questions answered."
         gameOver();
     }   
  }
 
  function startTimer() {
-  // Sets interval in variable
    timerInterval = setInterval(function() {
     secondsLeft--;
     timerEl.textContent = `Time remaining: ${secondsLeft}`;
 
     if(secondsLeft === 0) {
-      // Stops execution of action at set interval
       clearInterval(timerInterval);
-      // Calls function to create and append image
+      questions.textContent = "Game Over. Time ran out."
       gameOver();
     }
 
   }, 1000);
 }
 function gameOver () {
-  options.remove();
-  questions.textContent = "Time is up";
+  optionA.removeEventListener("click", correct);
+  optionA.removeEventListener("click", wrong);
+  optionA.textContent = "Submit";
+  optionA.addEventListener("click", saveInput);
+  options.appendChild(highScoreLabel);
+  highScoreLabel.textContent = "Please enter your initials."
+  options.appendChild(highScore); 
+  optionB.remove();
+  optionC.remove();
+  optionD.remove();  
   clearInterval(timerInterval);
+  
+    function saveInput () {
+      var initials = highScore.value;
+      console.log(`Initials entered are ${initials}`);
+  initialArr.push(initials);      
+  localStorage.setItem("highScoreInitial", JSON.stringify(initialArr));
+  console.log(localStorage.getItem("highScoreInitial"));
+    }
+
   timerEl.textContent = `Your score is: ${secondsLeft}`;
   console.log(secondsLeft);
 
@@ -180,6 +199,6 @@ startButton.addEventListener("click", startQuiz)
 // Create endGame fx that asks for initials imput and displays score then calls highScore fx
 // Create highScore fx that displays all high scores and offers option to clear high scores
 // Complete!  Create timer fx that decreases with every incorrect answer
-// 
+// Create a restart game fx
 //
 //
